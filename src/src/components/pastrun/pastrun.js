@@ -1,11 +1,9 @@
-import logo from './logo.svg';
-import './App.css';
-import Authentication from "./components/authentication/authentication.js";
-import { database } from "./config/firebase";
+import './pastrun.css';
+import { database } from "../../config/firebase";
 import { getDocs, collection } from "firebase/firestore";
 import React, { useState, useEffect } from 'react';
 
-function App() {
+function PastRun() {
   const [pastRun, setPastRun] = useState([]);
 
   const pastRunRef = collection(database, "Past Runs");
@@ -32,12 +30,10 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <Authentication />
-
+    <div className="pastrun">
       <div>
         {pastRun.map((run) => (
-          <div key={run.id}>
+          <div className = "runs" key={run.id}>
             <p>
               date: {run.Date?.toDate().toLocaleDateString()}
             </p>
@@ -59,5 +55,4 @@ function App() {
     </div>
   );
 }
-
-export default App;
+export default PastRun;
