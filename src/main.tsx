@@ -6,6 +6,5 @@ import Past from './routes/Past/Past.tsx';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Login />
-    <Past/>
   </StrictMode>,
 )

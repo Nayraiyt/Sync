@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&family=Trade+Winds&display=swap');
+
+:root {
+  --blue-dark: #17253B;
+  --grey-dark: #3D4B5A;
+  --yellow-light: #F3E3B9;
+  --yellow-dark: #F9D0A8;
+  --orange: #DAA792;
+  --grey: #A3ADCD;
+  --blue: #A4C0ED;
+  --cyan: #C5EBF8;
+}
+
+.title-font {
+  font-family: "Trade Winds", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+p, .base-font, input{
+  font-family: "Sour Gummy", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+.buttons{
+  background: var(--grey-dark);
+  color: white;
+  border-radius: 10%;
+}
+
+.foreground{
+  position: absolute;
+  width: 20vw;
+  height: 50vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  border-radius: 20%;
+  background-color: var(--grey);
+  padding: 10%;
+  gap: 10%;
+  place-items: center;
+}
+
+.main{
+  place-items: center;
+  background-color: var(--cyan);
+}

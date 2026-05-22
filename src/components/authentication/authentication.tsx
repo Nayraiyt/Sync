@@ -1,6 +1,7 @@
-import { auth } from "../../config/firebase";
-import { googleProvider } from "../../config/firebase";
+import { auth } from "../../config/firebase.tsx";
+import { googleProvider } from "../../config/firebase.tsx";
 import { createUserWithEmailAndPassword,signInWithPopup,signOut } from "firebase/auth";
+import './authentication.css';
 import React, { useState } from 'react';
 
 export const Authentication = () =>{
@@ -26,27 +27,35 @@ export const Authentication = () =>{
     }
     const signOut = async() =>{
         try{
-            await signOut(auth, googleProvider);
+            await signOut();
         }
         catch(err){
             console.error(err);
         }
     }
     return(
-        <div>
-            <input 
-                placeholder="Email..." 
-                onChange={(e) => setEmail(e.target.value)} 
-            />
-            <input 
-                placeholder="Password..." 
-                onChange={(e) => setPassword(e.target.value)}
-                type="password"
-            />
-            <button onClick={signIn}> Sign in </button>
-
-            <button onClick={signInWithGoogle}>Sign in with Google</button>
-            <button onClick = {signOut}> Sign out </button>
+        <div className = "main">
+            <div className = "background">
+            </div>
+            <div className = "foreground">
+                <div className = "email-input">
+                    <input 
+                    placeholder="Email..." 
+                    onChange={(e) => setEmail(e.target.value)} 
+                    />
+                </div>
+                <div className = "password-input">
+                    <input
+                    placeholder="Password..." 
+                    onChange={(e) => setPassword(e.target.value)}
+                    type="password"
+                    />
+                </div>
+                <button className = "buttons base-font b-signin" onClick={signIn}> Sign in </button>
+                <p> or </p>
+                <button className = "buttons base-font b-google" onClick={signInWithGoogle}> Sign in with Google</button>
+                <button className = "buttons base-font b-signout" onClick = {signOut}> Sign out </button>
+            </div>
         </div>
     )
 }

@@ -1,10 +1,18 @@
 import './pastrun.css';
-import { database } from "../../config/firebase";
+import { database } from "../../config/firebase.tsx";
 import { getDocs, collection } from "firebase/firestore";
 import React, { useState, useEffect } from 'react';
 
+type PastRunItem = {
+  id: string;
+  Date?: { toDate: () => Date };
+  Distance?: number | string;
+  Music?: string;
+  Time?: number | string;
+};
+
 function PastRun() {
-  const [pastRun, setPastRun] = useState([]);
+  const [pastRun, setPastRun] = useState<PastRunItem[]>([]);
 
   const pastRunRef = collection(database, "Past Runs");
 
@@ -31,9 +39,9 @@ function PastRun() {
 
   return (
     <div className="pastrun">
-      <div>
+      <div className = "runs">
         {pastRun.map((run) => (
-          <div className = "runs" key={run.id}>
+          <div className = "run" key={run.id}>
             <p>
               date: {run.Date?.toDate().toLocaleDateString()}
             </p>
