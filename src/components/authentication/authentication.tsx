@@ -36,23 +36,22 @@ export const Authentication = () =>{
     return(
         <div className = "main">
             <div className = "background">
+
             </div>
             <div className = "foreground">
+                <h1 className = "title-font">Sync</h1>
                 <div className = "email-input">
                     <input 
                     placeholder="Email..." 
-                    onChange={(e) => setEmail(e.target.value)} 
-                    />
+                    onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <div className = "password-input">
                     <input
                     placeholder="Password..." 
                     onChange={(e) => setPassword(e.target.value)}
-                    type="password"
-                    />
+                    type="password"/>
                 </div>
                 <button className = "buttons base-font b-signin" onClick={signIn}> Sign in </button>
-                <p> or </p>
                 <button className = "buttons base-font b-google" onClick={signInWithGoogle}> Sign in with Google</button>
                 <button className = "buttons base-font b-signout" onClick = {signOut}> Sign out </button>
             </div>

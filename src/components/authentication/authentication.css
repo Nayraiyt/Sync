@@ -8,13 +8,17 @@
   --orange: #DAA792;
   --grey: #A3ADCD;
   --blue: #A4C0ED;
+  --blue-light: #d3dbe9;
   --cyan: #C5EBF8;
 }
 
 .title-font {
   font-family: "Trade Winds", system-ui;
   font-weight: 400;
-  font-style: normal;
+  font-style: bold;
+  font-size: 50px;
+  color: white;
+  margin: 0;
 }
 
 p, .base-font, input{
@@ -37,13 +41,23 @@ p, .base-font, input{
   display: grid;
   grid-template-columns: 1fr;
   border-radius: 20%;
-  background-color: var(--grey);
+  background-color: var(--blue-dark);
   padding: 10%;
-  gap: 10%;
+  gap: 5%;
   place-items: center;
+  overflow: hidden;
+}
+
+.background{
+  overflow: hidden;
 }
 
 .main{
   place-items: center;
-  background-color: var(--cyan);
+  padding: 5%;
+}
+
+body{
+  background-color: var(--blue);
+  overflow: hidden;
 }

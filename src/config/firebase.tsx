@@ -9,8 +9,10 @@ import { getFirestore} from "firebase/firestore";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Provide minimal typing for process.env to avoid TS errors in browser builds
+declare const process: { env: { REACT_APP_FB_KEY?: string } };
 const firebaseConfig = {
-  apiKey: "AIzaSyCi-4BQsiQ6nNFVjvu2vDu3p1zG2Nz4Q0I",
+  apiKey: process.env.REACT_APP_FB_KEY ?? "",
   authDomain: "sync-spr1nt.firebaseapp.com",
   projectId: "sync-spr1nt",
   storageBucket: "sync-spr1nt.firebasestorage.app",
