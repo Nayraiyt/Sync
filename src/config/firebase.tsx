@@ -1,18 +1,9 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getAuth } from "firebase/auth";
-import { GoogleAuthProvider } from "firebase/auth";
-import { getFirestore} from "firebase/firestore";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-// Provide minimal typing for process.env to avoid TS errors in browser builds
-declare const process: { env: { REACT_APP_FB_KEY?: string } };
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FB_KEY ?? "",
+  apiKey: import.meta.env.VITE_FB_KEY,
   authDomain: "sync-spr1nt.firebaseapp.com",
   projectId: "sync-spr1nt",
   storageBucket: "sync-spr1nt.firebasestorage.app",
@@ -21,9 +12,8 @@ const firebaseConfig = {
   measurementId: "G-4J320Z7ZHJ"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-export const googleProvider = new GoogleAuthProvider();
+
 export const auth = getAuth(app);
+export const googleProvider = new GoogleAuthProvider();
 export const database = getFirestore(app);

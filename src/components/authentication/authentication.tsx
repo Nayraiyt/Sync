@@ -1,6 +1,7 @@
 import { auth } from "../../config/firebase.tsx";
 import { googleProvider } from "../../config/firebase.tsx";
-import { createUserWithEmailAndPassword,signInWithPopup,signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword,signInWithPopup } from "firebase/auth";
+import { signOut as firebaseSignOut } from "firebase/auth";
 import './authentication.css';
 import React, { useState } from 'react';
 
@@ -25,19 +26,19 @@ export const Authentication = () =>{
             console.error(err);
         }
     }
-    const signOut = async() =>{
-        try{
-            await signOut();
-        }
-        catch(err){
+    const logout = async () => {
+        try {
+            await firebaseSignOut(auth);
+        } catch (err) {
             console.error(err);
         }
-    }
+        };
     return(
         <div className = "main">
             <div className = "background">
 
             </div>
+
             <div className = "foreground">
                 <h1 className = "title-font">Sync</h1>
                 <div className = "email-input">
@@ -53,7 +54,7 @@ export const Authentication = () =>{
                 </div>
                 <button className = "buttons base-font b-signin" onClick={signIn}> Sign in </button>
                 <button className = "buttons base-font b-google" onClick={signInWithGoogle}> Sign in with Google</button>
-                <button className = "buttons base-font b-signout" onClick = {signOut}> Sign out </button>
+                <button className="buttons base-font b-signout" onClick={logout}>Sign out</button>
             </div>
         </div>
     )
