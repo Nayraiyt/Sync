@@ -1,4 +1,4 @@
-import  Authentication  from "../../components/authentication/authentication.tsx";
+import  Authentication  from "./authentication/authentication.tsx";
 
 function Login(){
     return(
