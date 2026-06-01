@@ -3,6 +3,7 @@ import { Timer } from "./Timer/Timer.tsx";
 import { auth } from "../../config/firebase.tsx";
 import { signOut } from "firebase/auth";
 import "./present.css";
+import Maps from "./Maps/Maps.tsx";
 
 type Props = {
   user: any;
@@ -29,17 +30,13 @@ export const Present = ({ user }: Props) => {
 
         <h1>Present</h1>
 
-        <hr />
-        <Timer isRunning={isRunning} />
-        <hr />
+          <Maps />
+          <Timer isRunning={isRunning} />
 
-        <h2>Current Stats</h2>
 
         <p> Status: {isRunning ? "Running" : "Stopped"}</p>
         <p> Pace: -- min/km</p>
         <p> Spotify: Not connected</p>
-
-        <hr />
 
         <div className="runButtons">
 

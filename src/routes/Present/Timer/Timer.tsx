@@ -30,7 +30,7 @@ export const Timer = ({ isRunning }: Props) => {
 
   return (
     <div>
-      <h2>⏱ Run Timer</h2>
+      <h2>⏱ Timer</h2>
       <p style={{ fontSize: "24px", fontWeight: "bold" }}>
         {formatTime(seconds)}
       </p>

@@ -6,6 +6,7 @@
   background: #0b0b0b;
   color: white;
   font-family: sans-serif;
+  place-items: center;
 }
 
 .runForeground {
