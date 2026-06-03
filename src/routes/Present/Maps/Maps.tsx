@@ -38,7 +38,7 @@ function Maps() {
 
     return (
         <div className="Maps_Box">
-            <GoogleMap 
+            <GoogleMap
                 center={center} 
                 zoom={15} 
                 mapContainerStyle={{ width: '100%', height: '100%' }}

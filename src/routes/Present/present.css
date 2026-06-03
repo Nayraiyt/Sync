@@ -1,3 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&family=Trade+Winds&display=swap');
+
+:root {
+    --blue-dark: #17253B;
+    --grey-dark: #3D4B5A;
+    --yellow-light: #F3E3B9;
+    --yellow-dark: #F9D0A8;
+    --orange: #DAA792;
+    --grey: #A3ADCD;
+    --blue: #A4C0ED;
+    --cyan: #C5EBF8;
+
+}
+
 .runMain {
   display: flex;
   justify-content: center;
@@ -10,23 +24,25 @@
 }
 
 .runForeground {
-
+  place-items: center;
 }
 
 .runButtons {
+  display: flex;
+  gap: 2%;
 }
 
 .runButton {
+  background-color: var(--grey-dark);
+  padding: 1%;
+  border: 0;
+  color: white;
+  border-radius: 10%;
 }
 
-.runPrimary {
-
-}
-
-.runSecondary {
-
-}
-
-.runDanger {
-
+p, .runButton{
+  font-family: "Sour Gummy", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
 }

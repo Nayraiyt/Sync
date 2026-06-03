@@ -2,4 +2,9 @@
     position: relative;
     height: 40vh;
     width: 25vw;
+    border-radius: 10%;
+}
+
+GoogleMap {
+    
 }

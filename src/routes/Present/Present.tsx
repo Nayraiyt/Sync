@@ -28,30 +28,26 @@ export const Present = ({ user }: Props) => {
     <div className="runMain">
       <div className="runForeground">
 
-        <h1>Present</h1>
-
-          <Maps />
           <Timer isRunning={isRunning} />
-
+          <Maps />
 
         <p> Status: {isRunning ? "Running" : "Stopped"}</p>
         <p> Pace: -- min/km</p>
         <p> Spotify: Not connected</p>
 
         <div className="runButtons">
-
           <button
-            className="runButton runPrimary"
+            className="runButton runToggle"
             onClick={toggleRun}
           >
             {isRunning ? "Stop Run" : "Start Run"}
           </button>
 
-          <button className="runButton runSecondary">
+          <button className="runButton runConnect">
             Connect Spotify
           </button>
 
-          <button className="runButton runDanger" onClick={logout}>
+          <button className="runButton runSignOut" onClick={logout}>
             Sign out
           </button>
 
