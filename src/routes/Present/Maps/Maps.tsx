@@ -1,17 +1,34 @@
 import { useState, useEffect } from "react";
-import { useJsApiLoader, GoogleMap, Marker } from "@react-google-maps/api";
+import {
+    useJsApiLoader,
+    GoogleMap,
+    Marker,
+    Polyline,
+} from "@react-google-maps/api";
+
 import "./Maps.css";
 
-const DEFAULT_CENTER = { lat: 45.4215, lng: -75.6972 };
+const DEFAULT_CENTER = {
+    lat: 45.4215,
+    lng: -75.6972,
+};
 
-function Maps() {
+type Props = {
+    locations: {
+        lat: number;
+        lng: number;
+    }[];
+};
+
+function Maps({ locations }: Props) {
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: (import.meta as any).env?.VITE_GM_KEY,
     });
 
     const [center, setCenter] = useState(DEFAULT_CENTER);
-    const [userLocation, setUserLocation] = useState(null);
-    const [isLocationLoading, setIsLocationLoading] = useState(true);
+    const [userLocation, setUserLocation] = useState<any>(null);
+    const [isLocationLoading, setIsLocationLoading] =
+        useState(true);
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -21,6 +38,7 @@ function Maps() {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude,
                     };
+
                     setCenter(pos);
                     setUserLocation(pos);
                     setIsLocationLoading(false);
@@ -33,7 +51,11 @@ function Maps() {
     }, []);
 
     if (!isLoaded || isLocationLoading) {
-        return <div className="Maps_Loading">Loading Map & Location...</div>;
+        return (
+            <div className="Maps_Loading">
+                Loading Map & Location...
+            </div>
+        );
     }
 
     return (
@@ -41,7 +63,10 @@ function Maps() {
             <GoogleMap
                 center={center}
                 zoom={15}
-                mapContainerStyle={{ width: "100%", height: "100%" }}
+                mapContainerStyle={{
+                    width: "100%",
+                    height: "100%",
+                }}
             >
                 {userLocation && (
                     <Marker
@@ -53,6 +78,17 @@ function Maps() {
                             fillOpacity: 1,
                             strokeWeight: 2,
                             strokeColor: "white",
+                        }}
+                    />
+                )}
+
+                {locations.length > 1 && (
+                    <Polyline
+                        path={locations}
+                        options={{
+                            strokeColor: "#4285F4",
+                            strokeOpacity: 1,
+                            strokeWeight: 5,
                         }}
                     />
                 )}
