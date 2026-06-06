@@ -17,10 +17,13 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #0b0b0b;
-  color: white;
-  font-family: sans-serif;
+  background: var(--blue);
+  color: var(--blue-dark);
   place-items: center;
+  font-family: "Sour Gummy", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
 }
 
 .runForeground {
@@ -45,4 +48,9 @@ p, .runButton{
   font-optical-sizing: auto;
   font-style: normal;
   font-variation-settings: "wdth" 100;
+}
+
+body{
+  background-color: var(--blue);
+  overflow: hidden;
 }
