@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { Timer } from "./Timer/Timer.tsx";
-import { auth } from "../../config/firebase.tsx";
+import { auth, database } from "../../config/firebase.tsx";
 import { signOut } from "firebase/auth";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+} from "firebase/firestore";
+
 import "./present.css";
 import Maps from "./Maps/Maps.tsx";
-import { Distance } from "./Distance/Distance.tsx";
-
+import { useDistance } from "./Distance/Distance.tsx";
 
 type Props = {
   user: any;
@@ -13,7 +18,8 @@ type Props = {
 
 export const Present = ({ user }: Props) => {
   const [isRunning, setIsRunning] = useState(false);
-  const { distanceKm, locations } =Distance(isRunning);
+  const [runId, setRunId] = useState(0);
+  const { distanceKm, locations } = useDistance(isRunning,runId);
 
   const logout = async () => {
     try {
@@ -23,27 +29,65 @@ export const Present = ({ user }: Props) => {
     }
   };
 
-  const [runId, setRunId] = useState(0);
+  const saveRun = async () => {
+    try {
+      await addDoc(
+        collection(database, "users", user.uid, "runs"),
+        {
+          distanceKm,
+          route: locations,
+          createdAt: serverTimestamp(),
+        }
+      );
 
-  const toggleRun = () => {
-      if (!isRunning) {
-        setRunId((prev) => prev + 1);
-      }
+      alert("Run saved successfully!");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to save run.");
+    }
+  };
 
-      setIsRunning((prev) => !prev);
+  const toggleRun = async () => {
+    if (!isRunning) {
+      setRunId((prev) => prev + 1);
+      setIsRunning(true);
+      return;
+    }
+
+    const shouldSave = window.confirm(
+      `Save this run?\n\nDistance: ${distanceKm.toFixed(
+        2
+      )} km`
+    );
+
+    if (shouldSave) {
+      await saveRun();
+    }
+
+    setIsRunning(false);
   };
 
   return (
     <div className="runMain">
       <div className="runForeground">
+        <Timer isRunning={isRunning} />
 
-          <Timer isRunning={isRunning} />
-          <Maps locations={locations} />
+        <pre style={{ fontSize: "12px" }}>
+          {JSON.stringify(locations[locations.length - 1], null, 2)}
+        </pre>
+        <Maps locations={locations} />
 
-        <p> Status: {isRunning ? "Running" : "Stopped"}</p>
-        <p>Distance: {distanceKm.toFixed(2)} km</p>
-        <p> Pace: -- min/km</p>
-        <p> Spotify: Not connected</p>
+        <p>
+          Status: {isRunning ? "Running" : "Stopped"}
+        </p>
+
+        <p>
+          Distance: {distanceKm.toFixed(2)} km
+        </p>
+
+        <p>Pace: -- min/km</p>
+
+        <p>Spotify: Not connected</p>
 
         <div className="runButtons">
           <button
@@ -57,12 +101,13 @@ export const Present = ({ user }: Props) => {
             Connect Spotify
           </button>
 
-          <button className="runButton runSignOut" onClick={logout}>
+          <button
+            className="runButton runSignOut"
+            onClick={logout}
+          >
             Sign out
           </button>
-
         </div>
-
       </div>
     </div>
   );

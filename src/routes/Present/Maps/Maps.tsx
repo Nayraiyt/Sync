@@ -86,7 +86,7 @@ function Maps({ locations }: Props) {
                     <Polyline
                         path={locations}
                         options={{
-                            strokeColor: "#4285F4",
+                            strokeColor: "#9d1b81",
                             strokeOpacity: 1,
                             strokeWeight: 5,
                         }}
