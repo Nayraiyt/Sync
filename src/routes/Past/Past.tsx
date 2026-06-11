@@ -60,33 +60,35 @@ export const Past = ({ user }: Props) => {
     }
 
     return (
-        <div className="pastRunsContainer">
-            <h1 className="pastRunsTitle">Past Runs</h1>
+        <div className = "past">
+            <div className="pastRunsContainer">
+                <h1 className="pastRunsTitle">Past Runs</h1>
 
-            {runs.length === 0 ? (
-                <p className="emptyRuns">
-                    No runs saved yet.
-                </p>
-            ) : (
-                <div className="runsList">
-                    {runs.map((run) => (
-                        <div
-                            key={run.id}
-                            className="runCard"
-                        >
-                            <div className="runDistance">
-                                {run.distanceKm?.toFixed(2)} km
-                            </div>
+                {runs.length === 0 ? (
+                    <p className="emptyRuns">
+                        No runs saved yet.
+                    </p>
+                ) : (
+                    <div className="runsList">
+                        {runs.map((run) => (
+                            <div
+                                key={run.id}
+                                className="runCard"
+                            >
+                                <div className="runDistance">
+                                    {run.distanceKm?.toFixed(2)} km
+                                </div>
 
-                            <div className="runDate">
-                                {run.createdAt
-                                    ?.toDate?.()
-                                    ?.toLocaleString()}
+                                <div className="runDate">
+                                    {run.createdAt
+                                        ?.toDate?.()
+                                        ?.toLocaleString()}
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
-            )}
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

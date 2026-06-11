@@ -3,30 +3,13 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
-  signOut as firebaseSignOut,
-  onAuthStateChanged,
 } from "firebase/auth";
-
-import { Present } from "../../Present/Present";
-
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import "./authentication.css";
 
 export const Authentication = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
 
   const createAccount = async () => {
     try {
@@ -52,21 +35,6 @@ export const Authentication = () => {
     }
   };
 
-  const logout = async () => {
-    try {
-      await firebaseSignOut(auth);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  if (loading) {
-    return <h1>Loading...</h1>;
-  }
-
-  if (user) {
-  return <Present user={user} />;
-  }
 
   return (
     <div className="main">

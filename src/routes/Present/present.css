@@ -27,7 +27,11 @@
 }
 
 .runForeground {
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
 }
 
 .runButtons {
@@ -43,6 +47,7 @@
   border-radius: 10%;
 }
 
+
 p, .runButton{
   font-family: "Sour Gummy", sans-serif;
   font-optical-sizing: auto;
@@ -50,17 +55,14 @@ p, .runButton{
   font-variation-settings: "wdth" 100;
 }
 
-.historyButton {
+.b-past{
     position: absolute;
     top: 20px;
     left: 20px;
-
     padding: 10px 16px;
-
-    border: none;
     border-radius: 8px;
-
     cursor: pointer;
+     z-index: 100;
 }
 
 *{

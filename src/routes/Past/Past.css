@@ -80,3 +80,12 @@
     font-size: 1.1rem;
     font-weight: 600;
 }
+
+.past{
+    background-image: url("../../assets/Sync-bg.png");
+    width: 100vw;
+    height: 100vh;
+    background-position: center;
+    background-size: cover;
+    overflow: hidden;
+}

@@ -83,7 +83,7 @@ export const Present = ({ user }: Props) => {
       <div className="runForeground">
 
         <button
-          className="past"
+          className="b-past"
           onClick={() =>
             setShowPastRuns(
               (prev) => !prev
