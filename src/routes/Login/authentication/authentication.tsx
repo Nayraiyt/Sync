@@ -71,7 +71,6 @@ export const Authentication = () => {
   return (
     <div className="main">
       <div className="foreground">
-        <h1 className="title-font">Sync</h1>
 
         <div className="email-input">
           <input

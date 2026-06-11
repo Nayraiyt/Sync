@@ -7,7 +7,7 @@ import {
   addDoc,
   serverTimestamp,
 } from "firebase/firestore";
-
+import { Past } from "../Past/Past.tsx";
 import "./present.css";
 import Maps from "./Maps/Maps.tsx";
 import { useDistance } from "./Distance/Distance.tsx";
@@ -19,7 +19,11 @@ type Props = {
 export const Present = ({ user }: Props) => {
   const [isRunning, setIsRunning] = useState(false);
   const [runId, setRunId] = useState(0);
-  const { distanceKm, locations } = useDistance(isRunning,runId);
+  const [showPastRuns, setShowPastRuns] =
+    useState(false);
+
+  const { distanceKm, locations } =
+    useDistance(isRunning, runId);
 
   const logout = async () => {
     try {
@@ -32,7 +36,12 @@ export const Present = ({ user }: Props) => {
   const saveRun = async () => {
     try {
       await addDoc(
-        collection(database, "users", user.uid, "runs"),
+        collection(
+          database,
+          "users",
+          user.uid,
+          "runs"
+        ),
         {
           distanceKm,
           route: locations,
@@ -48,12 +57,14 @@ export const Present = ({ user }: Props) => {
   };
 
   const toggleRun = async () => {
+    // Start Run
     if (!isRunning) {
       setRunId((prev) => prev + 1);
       setIsRunning(true);
       return;
     }
 
+    // Stop Run
     const shouldSave = window.confirm(
       `Save this run?\n\nDistance: ${distanceKm.toFixed(
         2
@@ -70,44 +81,70 @@ export const Present = ({ user }: Props) => {
   return (
     <div className="runMain">
       <div className="runForeground">
-        <Timer isRunning={isRunning} />
 
-        <pre style={{ fontSize: "12px" }}>
-          {JSON.stringify(locations[locations.length - 1], null, 2)}
-        </pre>
-        <Maps locations={locations} />
+        <button
+          className="past"
+          onClick={() =>
+            setShowPastRuns(
+              (prev) => !prev
+            )
+          }
+        >
+          {showPastRuns
+            ? "Back to Run"
+            : "Past Runs"}
+        </button>
 
-        <p>
-          Status: {isRunning ? "Running" : "Stopped"}
-        </p>
+        {showPastRuns ? (
+          <Past user={user} />
+        ) : (
+          <>
+            <Timer isRunning={isRunning} />
 
-        <p>
-          Distance: {distanceKm.toFixed(2)} km
-        </p>
+            <Maps locations={locations} />
 
-        <p>Pace: -- min/km</p>
+            <p>
+              Status:{" "}
+              {isRunning
+                ? "Running"
+                : "Stopped"}
+            </p>
 
-        <p>Spotify: Not connected</p>
+            <p>
+              Distance:{" "}
+              {distanceKm.toFixed(2)} km
+            </p>
 
-        <div className="runButtons">
-          <button
-            className="runButton runToggle"
-            onClick={toggleRun}
-          >
-            {isRunning ? "Stop Run" : "Start Run"}
-          </button>
+            <p>Pace: -- min/km</p>
 
-          <button className="runButton runConnect">
-            Connect Spotify
-          </button>
+            <p>
+              Spotify: Not connected
+            </p>
 
-          <button
-            className="runButton runSignOut"
-            onClick={logout}
-          >
-            Sign out
-          </button>
-        </div>
+            <div className="runButtons">
+              <button
+                className="runButton runToggle"
+                onClick={toggleRun}
+              >
+                {isRunning
+                  ? "Stop Run"
+                  : "Start Run"}
+              </button>
+
+              <button className="runButton runConnect">
+                Connect Spotify
+              </button>
+
+              <button
+                className="runButton runSignOut"
+                onClick={logout}
+              >
+                Sign out
+              </button>
+            </div>
+          </>
+        )}
+
       </div>
     </div>
   );
