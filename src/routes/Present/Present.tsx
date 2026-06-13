@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Timer } from "./Timer/Timer.tsx";
 import { auth, database } from "../../config/firebase.tsx";
 import { signOut } from "firebase/auth";
