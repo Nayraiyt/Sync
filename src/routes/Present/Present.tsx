@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import { Timer } from "./Timer/Timer.tsx";
 import { auth, database } from "../../config/firebase.tsx";
 import { signOut } from "firebase/auth";
-import {
-  collection,
-  addDoc,
-  serverTimestamp,
-} from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { Past } from "../Past/Past.tsx";
 import "./present.css";
 import Maps from "./Maps/Maps.tsx";
@@ -19,11 +15,9 @@ type Props = {
 export const Present = ({ user }: Props) => {
   const [isRunning, setIsRunning] = useState(false);
   const [runId, setRunId] = useState(0);
-  const [showPastRuns, setShowPastRuns] =
-    useState(false);
+  const [showPastRuns, setShowPastRuns] = useState(false);
 
-  const { distanceKm, locations } =
-    useDistance(isRunning, runId);
+  const { distanceKm, locations } = useDistance(isRunning, runId);
 
   const logout = async () => {
     try {
@@ -35,19 +29,11 @@ export const Present = ({ user }: Props) => {
 
   const saveRun = async () => {
     try {
-      await addDoc(
-        collection(
-          database,
-          "users",
-          user.uid,
-          "runs"
-        ),
-        {
-          distanceKm,
-          route: locations,
-          createdAt: serverTimestamp(),
-        }
-      );
+      await addDoc(collection(database, "users", user.uid, "runs"), {
+        distanceKm,
+        route: locations,
+        createdAt: serverTimestamp(),
+      });
 
       alert("Run saved successfully!");
     } catch (err) {
@@ -66,9 +52,7 @@ export const Present = ({ user }: Props) => {
 
     // Stop Run
     const shouldSave = window.confirm(
-      `Save this run?\n\nDistance: ${distanceKm.toFixed(
-        2
-      )} km`
+      `Save this run?\n\nDistance: ${distanceKm.toFixed(2)} km`,
     );
 
     if (shouldSave) {
@@ -81,70 +65,42 @@ export const Present = ({ user }: Props) => {
   return (
     <div className="runMain">
       <div className="runForeground">
-
         <button
           className="b-past"
-          onClick={() =>
-            setShowPastRuns(
-              (prev) => !prev
-            )
-          }
+          onClick={() => setShowPastRuns((prev) => !prev)}
         >
-          {showPastRuns
-            ? "Back to Run"
-            : "Past Runs"}
+          {showPastRuns ? "Back to Run" : "Past Runs"}
         </button>
 
         {showPastRuns ? (
           <Past user={user} />
         ) : (
           <>
-            <Timer isRunning={isRunning} />
+            <div className="map">
+              <Maps locations={locations} />
+            </div>
 
-            <Maps locations={locations} />
+            <div className="run-stats">
+              <Timer isRunning={isRunning} />
+              <p>Distance: {distanceKm.toFixed(2)} km</p>
+            </div>
 
-            <p>
-              Status:{" "}
-              {isRunning
-                ? "Running"
-                : "Stopped"}
-            </p>
-
-            <p>
-              Distance:{" "}
-              {distanceKm.toFixed(2)} km
-            </p>
-
-            <p>Pace: -- min/km</p>
-
-            <p>
-              Spotify: Not connected
-            </p>
+            <div className = "spodify">
+              <p>Spotify: Not connected</p>
+              {/* <button className="runButton runConnect">Connect Spotify</button> */}
+            </div>
 
             <div className="runButtons">
-              <button
-                className="runButton runToggle"
-                onClick={toggleRun}
-              >
-                {isRunning
-                  ? "Stop Run"
-                  : "Start Run"}
+              <button className="runButton runToggle" onClick={toggleRun}>
+                {isRunning ? "Stop Run" : "Start Run"}
               </button>
 
-              <button className="runButton runConnect">
-                Connect Spotify
-              </button>
-
-              <button
-                className="runButton runSignOut"
-                onClick={logout}
-              >
+              <button className="runButton runSignOut" onClick={logout}>
                 Sign out
               </button>
             </div>
           </>
         )}
-
       </div>
     </div>
   );

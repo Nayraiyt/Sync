@@ -67,6 +67,10 @@ function Maps({ locations }: Props) {
                     width: "100%",
                     height: "100%",
                 }}
+
+                options={{
+                    disableDefaultUI: true
+                }}
             >
                 {userLocation && (
                     <Marker
@@ -74,7 +78,7 @@ function Maps({ locations }: Props) {
                         icon={{
                             path: google.maps.SymbolPath.CIRCLE,
                             scale: 8,
-                            fillColor: "#4285F4",
+                            fillColor: "#08627b",
                             fillOpacity: 1,
                             strokeWeight: 2,
                             strokeColor: "white",

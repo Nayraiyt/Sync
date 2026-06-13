@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./Time.css";
 
 type Props = {
   isRunning: boolean;
@@ -30,7 +31,7 @@ export const Timer = ({ isRunning }: Props) => {
 
   return (
     <div>
-      <h1>
+      <h1 className="timer-count">
         {formatTime(seconds)}
       </h1>
     </div>

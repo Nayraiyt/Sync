@@ -1,91 +1,156 @@
 .pastRunsContainer {
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
-    color: white;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  color: var(--blue-dark);
 }
 
 .pastRunsTitle {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 25px;
-    font-weight: 700;
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 25px;
+  font-weight: 700;
+  color: var(--blue-dark);
 }
 
 .runsList {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .runCard {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
 
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
+  border: 1px solid rgba(23, 37, 59, 0.15);
+  border-radius: 16px;
 
-    padding: 18px 24px;
+  padding: 18px 24px;
 
-    transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  opacity: 80%;
 }
 
 .runCard:hover {
-    transform: translateY(-2px);
-    background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.9);
+  opacity: 100%;
 }
 
 .runDistance {
-    font-size: 1.4rem;
-    font-weight: 700;
-    margin-bottom: 8px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--blue-dark);
 }
 
 .runDate {
-    font-size: 0.95rem;
-    opacity: 0.8;
+  font-size: 0.95rem;
+  color: var(--grey-dark);
+  opacity: 0.9;
 }
 
 .emptyRuns {
-    text-align: center;
-    margin-top: 40px;
-    font-size: 1.1rem;
-    opacity: 0.8;
+  text-align: center;
+  margin-top: 40px;
+  font-size: 1.1rem;
+  color: var(--blue-dark);
 }
 
 .loadingRuns {
-    text-align: center;
-    margin-top: 40px;
-    font-size: 1.2rem;
+  text-align: center;
+  margin-top: 40px;
+  font-size: 1.2rem;
+  color: var(--blue-dark);
 }
 
 .runStats {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .runStat {
-    text-align: center;
+  text-align: center;
 }
 
 .runStatLabel {
-    font-size: 0.8rem;
-    opacity: 0.7;
-    margin-bottom: 4px;
+  font-size: 0.8rem;
+  color: var(--grey-dark);
+  margin-bottom: 4px;
 }
 
 .runStatValue {
-    font-size: 1.1rem;
-    font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--blue-dark);
 }
 
-.past{
-    background-image: url("../../assets/Sync-bg.png");
-    width: 100vw;
-    height: 100vh;
-    background-position: center;
-    background-size: cover;
-    overflow: hidden;
+.past {
+  background-image: url("../../assets/Sync-bg.png");
+  width: 100vw;
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+  overflow-y: auto;
+  padding: 20px;
+  position: relative;
+}
+
+.backgroundMap {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.35;
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.pastRunsContainer {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.runCard {
+  position: relative;
+  min-height: 220px;
+  overflow: hidden;
+}
+
+.runCardMap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.runCardContent {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  padding: 20px;
+
+  color: white;
+}
+
+.runDistance {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.runDate {
+  font-size: 0.95rem;
+  opacity: 0.95;
 }
