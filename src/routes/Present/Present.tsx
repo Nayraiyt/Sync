@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Timer } from "./Timer/Timer.tsx";
 import { auth, database } from "../../config/firebase.tsx";
 import { signOut } from "firebase/auth";
@@ -7,6 +7,7 @@ import { Past } from "../Past/Past.tsx";
 import "./present.css";
 import Maps from "./Maps/Maps.tsx";
 import { useDistance } from "./Distance/Distance.tsx";
+import { loginWithSpotify } from "./Spodify/SpodifyLogin.tsx";
 
 type Props = {
   user: any;
@@ -18,6 +19,8 @@ export const Present = ({ user }: Props) => {
   const [showPastRuns, setShowPastRuns] = useState(false);
 
   const { distanceKm, locations } = useDistance(isRunning, runId);
+
+  const spotifyAccessToken =localStorage.getItem("spotify_token");
 
   const logout = async () => {
     try {
@@ -62,6 +65,52 @@ export const Present = ({ user }: Props) => {
     setIsRunning(false);
   };
 
+  useEffect(() => {
+      const params = new URLSearchParams(
+          window.location.search
+      );
+      const code = params.get("code");
+
+      if (!code) return;
+
+      const exchangeToken = async () => {
+          const codeVerifier =
+              localStorage.getItem("code_verifier");
+
+          const body = new URLSearchParams({
+              client_id: import.meta.env
+                  .VITE_SPOTIFY_CLIENT_ID,
+              grant_type: "authorization_code",
+              code,
+              redirect_uri: window.location.origin,
+              code_verifier: codeVerifier!,
+          });
+
+          const res = await fetch(
+              "https://accounts.spotify.com/api/token",
+              {
+                  method: "POST",
+                  headers: {
+                      "Content-Type":
+                          "application/x-www-form-urlencoded",
+                  },
+                  body,
+              }
+          );
+
+          const data = await res.json();
+
+          localStorage.setItem(
+              "spotify_token",
+              data.access_token
+          );
+
+          window.location.replace("/");
+      };
+
+      exchangeToken();
+  }, []);
+
   return (
     <div className="runMain">
       <div className="runForeground">
@@ -87,7 +136,8 @@ export const Present = ({ user }: Props) => {
 
             <div className = "spodify">
               <p>Spotify: Not connected</p>
-              {/* <button className="runButton runConnect">Connect Spotify</button> */}
+              
+              <button onClick={loginWithSpotify}> Connect Spotify</button>
             </div>
 
             <div className="runButtons">
