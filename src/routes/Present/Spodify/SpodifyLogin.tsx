@@ -1,11 +1,13 @@
 const CLIENT_ID = import.meta.env.VITE_SCID;
-const REDIRECT_URI = window.location.origin;
+const REDIRECT_URI =
+  import.meta.env.DEV
+    ? "http://localhost:5173"
+    : "https://sync-sprint.netlify.app";
 
 const SCOPES = [
     "playlist-read-private",
     "playlist-read-collaborative",
 ];
-
 function generateRandomString(length: number) {
     const chars =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
