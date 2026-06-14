@@ -21,6 +21,7 @@ export const Present = ({ user }: Props) => {
   const { distanceKm, locations } = useDistance(isRunning, runId);
 
   const spotifyAccessToken =localStorage.getItem("spotify_token");
+  console.log(spotifyAccessToken);
 
   const logout = async () => {
     try {
