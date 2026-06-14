@@ -8,6 +8,7 @@ import "./present.css";
 import Maps from "./Maps/Maps.tsx";
 import { useDistance } from "./Distance/Distance.tsx";
 import { loginWithSpotify } from "./Spodify/SpodifyLogin.tsx";
+import { SpodifyImporter } from "./Spodify/SpodifyImport.tsx";
 
 type Props = {
   user: any;
@@ -136,9 +137,8 @@ export const Present = ({ user }: Props) => {
             </div>
 
             <div className = "spodify">
-              <p>Spotify: Not connected</p>
-              
               <button onClick={loginWithSpotify}> Connect Spotify</button>
+              <SpodifyImporter />
             </div>
 
             <div className="runButtons">
