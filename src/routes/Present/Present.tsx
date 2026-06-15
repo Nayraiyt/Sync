@@ -15,6 +15,8 @@ import { paceToBPM } from "./Pace/PaceConvert";
 import { getSongs } from "./Pace/PaceConvert";
 import { matchSongsByBPM } from "./Pace/PaceConvert";
 
+import { Past } from "../Past/Past.tsx";
+
 import type { Song } from "../../types/song.tsx";
 
 type Props = {
@@ -35,6 +37,7 @@ export const Present = ({ user }: Props) => {
 
   const spotifyAccessToken = localStorage.getItem("spotify_token");
   console.log("Spotify token:", spotifyAccessToken);
+  
 
   const logout = async () => {
     try {
@@ -148,7 +151,7 @@ export const Present = ({ user }: Props) => {
         </button>
 
         {showPastRuns ? (
-          <div>Past Runs Component Here</div>
+          <Past user={user} />
         ) : (
           <>
             <div className="map">
@@ -157,40 +160,18 @@ export const Present = ({ user }: Props) => {
 
             <div className="run-stats">
               <Timer isRunning={isRunning} />
-              <p>
-                Distance: {distanceKm.toFixed(2)} km
-              </p>
+              <p>Distance: {distanceKm.toFixed(2)} km</p>
+               <p>Pace: {targetPace} min/km</p>
             </div>
-
-            <div className="paceInput">
-              <label>Target Pace (min/km)</label>
-
-              <input
-                type="number"
-                step="0.1"
-                min="3"
-                max="10"
-                value={targetPace}
-                onChange={(e) =>
-                  setTargetPace(
-                    Number(e.target.value)
-                  )
-                }
-              />
-            </div>
-
-            <p>Pace: {targetPace} min/km</p>
 
             <div className="spodify">
-              <button onClick={loginWithSpotify}>
+              <button className = "b-connectS" onClick={loginWithSpotify}>
                 Connect Spotify
               </button>
 
               <SpodifyImporter />
 
               <div>
-                <h3>Current Running Playlist</h3>
-
                 {currentPlaylist.map((song) => (
                   <div
                     key={song.spotifyTrackId}
@@ -212,6 +193,22 @@ export const Present = ({ user }: Props) => {
                   ? "Stop Run"
                   : "Start Run"}
               </button>
+
+              <div className="paceInput">
+                <label>Pace(min/km)</label>
+                <input className = "pace-input"
+                  type="number"
+                  step="0.1"
+                  min="3"
+                  max="10"
+                  value={targetPace}
+                  onChange={(e) =>
+                    setTargetPace(
+                      Number(e.target.value)
+                    )
+                  }
+                />
+              </div>
 
               <button
                 className="runButton runSignOut"

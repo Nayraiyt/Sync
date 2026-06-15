@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { database } from "../../../config/firebase";
 import { doc, setDoc } from "firebase/firestore";
+import "./SpodifyImport.css"
 
 type Playlist = {
     id: string;
@@ -80,10 +81,9 @@ export function SpodifyImporter() {
 
     return (
         <div style={{ padding: 20 }}>
-            <h2>Spotify Playlist Importer</h2>
 
-            <button onClick={loadPlaylists}>
-                Load My Playlists
+            <button className = "b-playlist" onClick={loadPlaylists}>
+                Load Spodify Playlists
             </button>
 
             {loading && <p>Loading...</p>}

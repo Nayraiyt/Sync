@@ -100,8 +100,46 @@ body,
 
 .run-stats,
 .spodify,
-.runButtons {
+.paceInput {
   position: relative;
   z-index: 1;
   place-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.runButtons{
+  position: relative;
+  z-index: 1;
+  place-items: center;
+}
+
+.b-connectS{
+  padding: 10px;
+
+  border: none;
+  border-radius: 50px;
+
+  background: white;
+  color: var(--grey-dark);
+
+  font-size: 1rem;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  box-shadow: 0 4px 12px var(--blue-dark);
+}
+
+.b-connectS:hover{
+  transform: translateY(-2px);
+  background: var(--blue-light);
+}
+
+.pace-input{
+  background-color: var(--grey-dark);
+  color: white;
+  padding: 10px 10px;
+  border-radius: 8px;
 }
