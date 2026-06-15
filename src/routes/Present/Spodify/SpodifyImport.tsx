@@ -18,8 +18,8 @@ type Track = {
 
 export function SpodifyImporter() {
     const [playlists, setPlaylists] = useState<Playlist[]>([]);
-    const [selectedPlaylist, setSelectedPlaylist] =
-        useState<string | null>(null);
+    //const [selectedPlaylist, setSelectedPlaylist] =
+        //useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
     const token = localStorage.getItem("spotify_token");
@@ -37,8 +37,19 @@ export function SpodifyImporter() {
         );
 
         const data = await res.json();
+
+        if (!res.ok) {
+            console.error("Spotify error:", data);
+            alert("Spotify auth failed — reconnect account");
+            return;
+        }
+
+        if (!data.items) {
+            console.error("No playlists returned:", data);
+            return;
+        }
+
         setPlaylists(data.items);
-        setLoading(false);
     };
 
     const importPlaylist = async (playlistId: string) => {

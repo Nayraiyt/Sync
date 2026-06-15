@@ -1,14 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Timer } from "./Timer/Timer.tsx";
 import { auth, database } from "../../config/firebase.tsx";
 import { signOut } from "firebase/auth";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { Past } from "../Past/Past.tsx";
+
 import "./present.css";
 import Maps from "./Maps/Maps.tsx";
 import { useDistance } from "./Distance/Distance.tsx";
+
 import { loginWithSpotify } from "./Spodify/SpodifyLogin.tsx";
 import { SpodifyImporter } from "./Spodify/SpodifyImport.tsx";
+
+import { paceToBPM } from "./Pace/PaceConvert";
+import { getSongs } from "./Pace/PaceConvert";
+import { matchSongsByBPM } from "./Pace/PaceConvert";
+
+import type { Song } from "../../types/song.tsx";
 
 type Props = {
   user: any;
@@ -21,8 +28,13 @@ export const Present = ({ user }: Props) => {
 
   const { distanceKm, locations } = useDistance(isRunning, runId);
 
-  const spotifyAccessToken =localStorage.getItem("spotify_token");
-  console.log(spotifyAccessToken);
+  const [targetPace, setTargetPace] = useState(5);
+  const [currentPlaylist, setCurrentPlaylist] = useState<any[]>([]);
+
+  const lastBPM = useRef<number | null>(null);
+
+  const spotifyAccessToken = localStorage.getItem("spotify_token");
+  console.log("Spotify token:", spotifyAccessToken);
 
   const logout = async () => {
     try {
@@ -31,6 +43,7 @@ export const Present = ({ user }: Props) => {
       console.error(err);
     }
   };
+
 
   const saveRun = async () => {
     try {
@@ -47,17 +60,29 @@ export const Present = ({ user }: Props) => {
     }
   };
 
+  const startRunMusic = async () => {
+    const targetBPM = paceToBPM(targetPace);
+
+    const songs = (await getSongs()) as Song[];
+
+    const matched = matchSongsByBPM(songs, targetBPM);
+
+    setCurrentPlaylist(matched.slice(0, 10));
+
+    lastBPM.current = targetBPM;
+  };
+
   const toggleRun = async () => {
-    // Start Run
     if (!isRunning) {
       setRunId((prev) => prev + 1);
       setIsRunning(true);
+
+      await startRunMusic();
       return;
     }
 
-    // Stop Run
     const shouldSave = window.confirm(
-      `Save this run?\n\nDistance: ${distanceKm.toFixed(2)} km`,
+      `Save this run?\n\nDistance: ${distanceKm.toFixed(2)} km`
     );
 
     if (shouldSave) {
@@ -68,49 +93,46 @@ export const Present = ({ user }: Props) => {
   };
 
   useEffect(() => {
-      const params = new URLSearchParams(
-          window.location.search
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+
+    if (!code) return;
+
+    const exchangeToken = async () => {
+      const codeVerifier = localStorage.getItem("code_verifier");
+
+      const body = new URLSearchParams({
+        client_id: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
+        grant_type: "authorization_code",
+        code,
+        redirect_uri: window.location.origin,
+        code_verifier: codeVerifier!,
+      });
+
+      const res = await fetch(
+        "https://accounts.spotify.com/api/token",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body,
+        }
       );
-      const code = params.get("code");
 
-      if (!code) return;
+      const data = await res.json();
 
-      const exchangeToken = async () => {
-          const codeVerifier =
-              localStorage.getItem("code_verifier");
+      if (data.access_token) {
+        localStorage.setItem(
+          "spotify_token",
+          data.access_token
+        );
+      }
 
-          const body = new URLSearchParams({
-              client_id: import.meta.env
-                  .VITE_SPOTIFY_CLIENT_ID,
-              grant_type: "authorization_code",
-              code,
-              redirect_uri: window.location.origin,
-              code_verifier: codeVerifier!,
-          });
+      window.location.replace("/");
+    };
 
-          const res = await fetch(
-              "https://accounts.spotify.com/api/token",
-              {
-                  method: "POST",
-                  headers: {
-                      "Content-Type":
-                          "application/x-www-form-urlencoded",
-                  },
-                  body,
-              }
-          );
-
-          const data = await res.json();
-
-          localStorage.setItem(
-              "spotify_token",
-              data.access_token
-          );
-
-          window.location.replace("/");
-      };
-
-      exchangeToken();
+    exchangeToken();
   }, []);
 
   return (
@@ -118,13 +140,15 @@ export const Present = ({ user }: Props) => {
       <div className="runForeground">
         <button
           className="b-past"
-          onClick={() => setShowPastRuns((prev) => !prev)}
+          onClick={() =>
+            setShowPastRuns((prev) => !prev)
+          }
         >
           {showPastRuns ? "Back to Run" : "Past Runs"}
         </button>
 
         {showPastRuns ? (
-          <Past user={user} />
+          <div>Past Runs Component Here</div>
         ) : (
           <>
             <div className="map">
@@ -133,20 +157,66 @@ export const Present = ({ user }: Props) => {
 
             <div className="run-stats">
               <Timer isRunning={isRunning} />
-              <p>Distance: {distanceKm.toFixed(2)} km</p>
+              <p>
+                Distance: {distanceKm.toFixed(2)} km
+              </p>
             </div>
 
-            <div className = "spodify">
-              <button onClick={loginWithSpotify}> Connect Spotify</button>
+            <div className="paceInput">
+              <label>Target Pace (min/km)</label>
+
+              <input
+                type="number"
+                step="0.1"
+                min="3"
+                max="10"
+                value={targetPace}
+                onChange={(e) =>
+                  setTargetPace(
+                    Number(e.target.value)
+                  )
+                }
+              />
+            </div>
+
+            <p>Pace: {targetPace} min/km</p>
+
+            <div className="spodify">
+              <button onClick={loginWithSpotify}>
+                Connect Spotify
+              </button>
+
               <SpodifyImporter />
+
+              <div>
+                <h3>Current Running Playlist</h3>
+
+                {currentPlaylist.map((song) => (
+                  <div
+                    key={song.spotifyTrackId}
+                  >
+                    <p>{song.name}</p>
+                    <p>{song.artist}</p>
+                    <p>{song.bpm} BPM</p>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className="runButtons">
-              <button className="runButton runToggle" onClick={toggleRun}>
-                {isRunning ? "Stop Run" : "Start Run"}
+              <button
+                className="runButton runToggle"
+                onClick={toggleRun}
+              >
+                {isRunning
+                  ? "Stop Run"
+                  : "Start Run"}
               </button>
 
-              <button className="runButton runSignOut" onClick={logout}>
+              <button
+                className="runButton runSignOut"
+                onClick={logout}
+              >
                 Sign out
               </button>
             </div>
