@@ -75,13 +75,7 @@ export const Past = ({ user }: Props) => {
               <div key={run.id} className="runCard">
                 {run.route && run.route.length > 0 && (
                   <div className="runCardMap">
-                    {/*<MiniMap locations={run.route} />*/}
-                    <MiniMap
-                        locations={run.route.map((point: any) => ({
-                            lat: point.latitude ?? point._lat,
-                            lng: point.longitude ?? point._long,
-                        }))}
-                        />
+                    <MiniMap locations={run.route} />
                   </div>
                 )}
 
