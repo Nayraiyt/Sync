@@ -7,19 +7,9 @@ type Playlist = {
     name: string;
 };
 
-type Track = {
-    track: {
-        id: string;
-        name: string;
-        artists: { name: string }[];
-        preview_url: string | null;
-    };
-};
 
 export function SpodifyImporter() {
     const [playlists, setPlaylists] = useState<Playlist[]>([]);
-    //const [selectedPlaylist, setSelectedPlaylist] =
-        //useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
     const token = localStorage.getItem("spotify_token");
