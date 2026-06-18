@@ -38,12 +38,10 @@ export const Past = ({ user }: Props) => {
           ...doc.data(),
         })) as Run[];
 
-        console.log("RUNS FROM FIRESTORE:", data);
-        console.log("FIRST ROUTE:", data[0]?.route);
-        console.log("FIRST POINT:", data[0]?.route?.[0]);
+        console.log("firestore runs:", data);
+        console.log("start point:", data[0]?.route?.[0]);
 
         setRuns(data);
-
       } catch (err) {
         console.error(err);
       } finally {
@@ -68,7 +66,7 @@ export const Past = ({ user }: Props) => {
         <h1 className="pastRunsTitle">Past Runs</h1>
 
         {runs.length === 0 ? (
-          <p className="emptyRuns">No runs saved yet.</p>
+          <p className="emptyRuns">No saved runs</p>
         ) : (
           <div className="runsList">
             {runs.map((run) => (

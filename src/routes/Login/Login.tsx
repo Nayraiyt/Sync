@@ -36,6 +36,7 @@ function Login(){
 
     return(
         <div className = "login">
+            {/* clouds were copied from what i made for mushroot. */}
             <div className="clouds">
                 <img className="cloud cat-cloud-1" src={catCloud1} alt="cute cat cloud" />
                 <img className="cloud cat-cloud-2" src={catCloud2} alt="cute cat cloud" />

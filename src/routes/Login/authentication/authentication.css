@@ -1,15 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&family=Trade+Winds&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&family=Trade+Winds&display=swap");
 
 :root {
-  --blue-dark: #17253B;
-  --grey-dark: #3D4B5A;
-  --yellow-light: #F3E3B9;
-  --yellow-dark: #F9D0A8;
-  --orange: #DAA792;
-  --grey: #A3ADCD;
-  --blue: #A4C0ED;
+  --blue-dark: #17253b;
+  --grey-dark: #3d4b5a;
+  --yellow-light: #f3e3b9;
+  --yellow-dark: #f9d0a8;
+  --orange: #daa792;
+  --grey: #a3adcd;
+  --blue: #a4c0ed;
   --blue-light: #d3dbe9;
-  --cyan: #C5EBF8;
+  --cyan: #c5ebf8;
 }
 
 .title-font {
@@ -21,15 +21,16 @@
   margin: 0;
 }
 
-p, .base-font, input{
+p,
+.base-font,
+input {
   font-family: "Sour Gummy", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
   font-variation-settings: "wdth" 100;
 }
 
-
-input{
+input {
   width: 100%;
   max-width: 300px;
   width: 100%;
@@ -47,7 +48,7 @@ input{
   transition: all 0.25s ease;
 }
 
-input:focus{
+input:focus {
   box-shadow:
     0 0 0 3px var(--cyan),
     0 8px 20px var(--blue-dark);
@@ -55,7 +56,7 @@ input:focus{
   transform: scale(1.03);
 }
 
-.foreground{
+.foreground {
   position: absolute;
   top: 30%;
   width: 22vw;
@@ -74,12 +75,12 @@ input:focus{
   opacity: 85%;
 }
 
-input{
+input {
   width: 100%;
   padding: 14px 18px;
 }
 
-.buttons{
+.buttons {
   width: 100%;
   padding: 14px;
   border: none;
@@ -92,23 +93,22 @@ input{
   transition: all 0.2s ease;
 }
 
-
-.buttons:hover{
+.buttons:hover {
   transform: translateY(-2px);
   background: var(--blue);
   color: var(--blue-dark);
 }
 
-.background{
+.background {
   overflow: hidden;
 }
 
-.main{
+.main {
   place-items: center;
   padding: 5%;
 }
 
-.b-google{
+.b-google {
   width: 100%;
   padding: 14px;
 
@@ -127,7 +127,7 @@ input{
   box-shadow: 0 4px 12px var(--blue-dark);
 }
 
-.b-google:hover{
+.b-google:hover {
   transform: translateY(-2px);
   background: var(--blue-light);
 }

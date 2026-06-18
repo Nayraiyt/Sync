@@ -56,9 +56,9 @@ export function useDistance(isRunning: boolean, runId: number) {
         setDistanceMeters((prev) => prev + segmentDistance);
       }
     }
-    console.log("New GPS position:", currentPosition);
-    console.log("Previous:", previousPosition.current);
-    console.log("Distance so far:", distanceMeters);
+    console.log("New GPS pos:", currentPosition);
+    console.log("Previous pos:", previousPosition.current);
+    console.log("Distance:", distanceMeters);
     previousPosition.current = currentPosition;
   }, []);
 

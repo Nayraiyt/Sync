@@ -10,6 +10,7 @@ export async function getSongs() {
 }
 
 export function paceToBPM(paceMinPerKm: number) {
+    {/* values were taken via trail and error (aka me on a tredmill) */}
     if (paceMinPerKm > 7) return 145;
     if (paceMinPerKm > 6) return 155;
     if (paceMinPerKm > 5) return 165;

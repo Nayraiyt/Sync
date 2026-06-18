@@ -37,7 +37,6 @@ export const Present = ({ user }: Props) => {
 
   const spotifyAccessToken = localStorage.getItem("spotify_token");
   console.log("Spotify token:", spotifyAccessToken);
-  
 
   const logout = async () => {
     try {
@@ -46,7 +45,6 @@ export const Present = ({ user }: Props) => {
       console.error(err);
     }
   };
-
 
   const saveRun = async () => {
     try {
@@ -65,13 +63,9 @@ export const Present = ({ user }: Props) => {
 
   const startRunMusic = async () => {
     const targetBPM = paceToBPM(targetPace);
-
     const songs = (await getSongs()) as Song[];
-
     const matched = matchSongsByBPM(songs, targetBPM);
-
     setCurrentPlaylist(matched.slice(0, 10));
-
     lastBPM.current = targetBPM;
   };
 
@@ -85,7 +79,7 @@ export const Present = ({ user }: Props) => {
     }
 
     const shouldSave = window.confirm(
-      `Save this run?\n\nDistance: ${distanceKm.toFixed(2)} km`
+      `Save this run?\n\nDistance: ${distanceKm.toFixed(2)} km`,
     );
 
     if (shouldSave) {
@@ -112,24 +106,18 @@ export const Present = ({ user }: Props) => {
         code_verifier: codeVerifier!,
       });
 
-      const res = await fetch(
-        "https://accounts.spotify.com/api/token",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body,
-        }
-      );
+      const res = await fetch("https://accounts.spotify.com/api/token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body,
+      });
 
       const data = await res.json();
 
       if (data.access_token) {
-        localStorage.setItem(
-          "spotify_token",
-          data.access_token
-        );
+        localStorage.setItem("spotify_token", data.access_token);
       }
 
       window.location.replace("/");
@@ -143,9 +131,7 @@ export const Present = ({ user }: Props) => {
       <div className="runForeground">
         <button
           className="b-past"
-          onClick={() =>
-            setShowPastRuns((prev) => !prev)
-          }
+          onClick={() => setShowPastRuns((prev) => !prev)}
         >
           {showPastRuns ? "Back to Run" : "Past Runs"}
         </button>
@@ -161,21 +147,17 @@ export const Present = ({ user }: Props) => {
             <div className="run-stats">
               <Timer isRunning={isRunning} />
               <p>Distance: {distanceKm.toFixed(2)} km</p>
-               <p>Pace: {targetPace} min/km</p>
+              <p>Pace: {targetPace} min/km</p>
             </div>
 
             <div className="spodify">
-              <button className = "b-connectS" onClick={loginWithSpotify}>
+              <button className="b-connectS" onClick={loginWithSpotify}>
                 Connect Spotify
               </button>
-
               <SpodifyImporter />
-
               <div>
                 {currentPlaylist.map((song) => (
-                  <div
-                    key={song.spotifyTrackId}
-                  >
+                  <div key={song.spotifyTrackId}>
                     <p>{song.name}</p>
                     <p>{song.artist}</p>
                     <p>{song.bpm} BPM</p>
@@ -185,35 +167,24 @@ export const Present = ({ user }: Props) => {
             </div>
 
             <div className="runButtons">
-              <button
-                className="runButton runToggle"
-                onClick={toggleRun}
-              >
-                {isRunning
-                  ? "Stop Run"
-                  : "Start Run"}
+              <button className="runButton runToggle" onClick={toggleRun}>
+                {isRunning ? "Stop Run" : "Start Run"}
               </button>
 
               <div className="paceInput">
                 <label>Pace(min/km)</label>
-                <input className = "pace-input"
+                <input
+                  className="pace-input"
                   type="number"
                   step="0.1"
-                  min="3"
-                  max="10"
+                  min="0"
+                  max="15"
                   value={targetPace}
-                  onChange={(e) =>
-                    setTargetPace(
-                      Number(e.target.value)
-                    )
-                  }
+                  onChange={(e) => setTargetPace(Number(e.target.value))}
                 />
               </div>
 
-              <button
-                className="runButton runSignOut"
-                onClick={logout}
-              >
+              <button className="runButton runSignOut" onClick={logout}>
                 Sign out
               </button>
             </div>

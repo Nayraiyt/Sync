@@ -11,6 +11,7 @@ export const Authentication = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  //again, thank u fire base for having very straightforward functions. They the goat!!!
   const createAccount = async () => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
@@ -35,11 +36,9 @@ export const Authentication = () => {
     }
   };
 
-
   return (
     <div className="main">
       <div className="foreground">
-
         <div className="email-input">
           <input
             placeholder="Email..."
@@ -55,17 +54,11 @@ export const Authentication = () => {
           />
         </div>
 
-        <button
-          className="buttons base-font b-signin"
-          onClick={login}
-        >
+        <button className="buttons base-font b-signin" onClick={login}>
           Login
         </button>
 
-        <button
-          className="buttons base-font"
-          onClick={createAccount}
-        >
+        <button className="buttons base-font" onClick={createAccount}>
           Create Account
         </button>
 
